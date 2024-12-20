@@ -63,9 +63,9 @@ def load_model():
             return x
 
     class SiameseResNet(nn.Module):
-        def __init__(self, model_name = "resnet50", pretrained = False):
+        def __init__(self, model_name = "resnet50", weights = None):
             super(SiameseResNet, self).__init__()
-            self.baseModel = models.resnet50(pretrained = pretrained)
+            self.baseModel = models.resnet50(weights = weights)
             self.attention1 = CBAM(in_channels = 256)
             self.attention2 = CBAM(in_channels = 1024)
             self.baseModel.conv1 = nn.Conv2d(1, 64, kernel_size = 7, stride = 2, padding = 3, bias = False)
@@ -116,7 +116,7 @@ def load_model():
     repo_id = "mohamed517/logistic_regression_triangular"
     filename = "logistic_model_triangular_m09_ashoj3.pth"
     model_path = hf_hub_download(repo_id=repo_id, filename=filename)
-    model_rms.load_state_dict(torch.load(model_path, map_location=device))
+    model_rms.load_state_dict(torch.load(model_path, map_location = device, weights_only = True))
     model_rms.to(device)
 
 def preprocess_img(img_path):
@@ -193,4 +193,4 @@ def predict():
 
 if __name__ == '__main__':
     load_model()
-    app.run(host = '0.0.0.0', port = 80)
+    app.run(host = '0.0.0.0', port = 8080)
