@@ -1,0 +1,8 @@
+opencv-python
+torch
+numpy
+Pillow
+torchvision
+huggingface_hub
+Flask
+Werkzeug
